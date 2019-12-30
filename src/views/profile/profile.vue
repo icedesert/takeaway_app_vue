@@ -1,21 +1,21 @@
 <template>
   <section class="profile">
     <topper title="我的"/>
-    <section class="profile-number">
-      <!--<router-link :to="userInfo._id ? '/userinfo': '/login'" class="profile-link">-->
-      <router-link class="profile-link" to="/login">
+    <transition name="fade">
+      <div class="loginTips" v-if="showTips">{{tipsText}}</div>
+    </transition>
+    <section class="profile-number" @click="isLogin">
+      <router-link class="profile-link" :to="userInfo._id ? '/profile' : '/login'">
         <div class="profile_image">
           <i class="iconfont icon-person"></i>
         </div>
         <div class="user-info">
-          <!--<p class="user-info-top" v-if="!userInfo.phone">{{userInfo.name || '登录/注册'}}</p>-->
-          <p class="user-info-top">{{'登录/注册'}}</p>
+          <p class="user-info-top">{{userInfo.name || userInfo.phone || '登录/注册'}}</p>
           <p>
                 <span class="user-icon">
                   <i class="iconfont icon-shouji icon-mobile"></i>
                 </span>
-            <!--<span class="icon-mobile-number">{{userInfo.phone || '暂无绑定手机号'}}</span>-->
-            <span class="icon-mobile-number">{{'暂无绑定手机号'}}</span>
+            <span class="icon-mobile-number">{{userInfo.phone? '手机已绑定':'手机未绑定'}}</span>
           </p>
         </div>
         <span class="arrow">
@@ -94,7 +94,7 @@
 
     <section class="profile_my_order border-1px">
       <!--<mt-button type="danger" style="width: 100%" v-if="userInfo._id" @click="logout">退出登陆</mt-button>-->
-      <mt-button type="danger" style="width: 100%">退出登陆</mt-button>
+      <mt-button v-if="userInfo._id" @click="logout" type="danger" style="width: 100%">退出登陆</mt-button>
     </section>
   </section>
 
@@ -102,9 +102,47 @@
 
 <script>
 import topper from '../../components/topper/topper'
+import { mapState } from 'vuex'
+import { MessageBox } from 'mint-ui'
 
 export default {
   name: 'home',
+  data () {
+    return {
+      showTips: false,
+      tipsText: ''
+    }
+  },
+  computed: {
+    ...mapState(['userInfo'])
+  },
+  methods: {
+    logout () {
+      MessageBox.confirm('确定登出吗？').then(
+        confirm => {
+          this.$store.dispatch('userLogout')
+          this.tipsText = '登出成功'
+          this.showTips = true
+          setTimeout(() => {
+            this.showTips = false
+          }, 600)
+          console.log('select:', confirm)
+        },
+        cancel => {
+          console.log('select:', cancel)
+        }
+      )
+    },
+    isLogin () {
+      if (this.userInfo._id) {
+        this.tipsText = '已登录'
+        this.showTips = true
+        setTimeout(() => {
+          this.showTips = false
+        }, 600)
+      }
+    }
+  },
   components: {
     topper
   }
@@ -118,7 +156,7 @@ export default {
     width: 100%;
     overflow: hidden;
     .header {
-      background-color: #02a774;
+      background-color: @green;
       position: fixed;
       z-index: 100;
       left: 0;
@@ -169,7 +207,7 @@ export default {
         .clearFix();
         position: relative;
         display: block;
-        background: #02a774;
+        background: @green;
         padding: 20px 10px;
         .profile_image {
           float: left;
@@ -294,7 +332,7 @@ export default {
             font-size: 30px;
           }
           .icon-order-s {
-            color: #02a774;
+            color: @green;
           }
           .icon-jifen {
             color: #ff5f3e;
@@ -303,7 +341,7 @@ export default {
             color: #f90;
           }
           .icon-fuwu {
-            color: #02a774;
+            color: @green;
           }
         }
         .my_order_div {
@@ -326,6 +364,37 @@ export default {
             }
           }
         }
+      }
+    }
+    .loginTips {
+      position: absolute;
+      width: 95px;
+      height: 45px;
+      top: 300px;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      -moz-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+      -o-transform: translateX(-50%);
+      transform: translateX(-50%);
+      color: #ffff;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      background-color: #000000;
+      opacity: 55%;
+      text-align: center;
+      line-height: 45px;
+      z-index: 50;
+      &.fade-enter-active, &.fade-leave-active {
+        -webkit-transition: all .3s;
+        -moz-transition: all .3s;
+        -ms-transition: all .3s;
+        -o-transition: all .3s;
+        transition: all .3s;
+      }
+      &.fade-enter, &.fade-leave-to {
+        opacity: 0;
       }
     }
   }

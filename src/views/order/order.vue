@@ -3,19 +3,24 @@
     <topper title="订单列表"></topper>
     <section class="order_no_login">
       <img src="./images/person.png"/>
-      <h3>登录后查看外卖订单</h3>
-      <button>立即登陆</button>
+      <h3 v-if="userInfo._id">暂无订单</h3>
+      <h3 v-else>登录后查看外卖订单</h3>
+      <button v-if="!userInfo._id" @click="$router.push('/login')">立即登陆</button>
     </section>
   </div>
 </template>
 
 <script>
 import topper from '../../components/topper/topper'
+import { mapState } from 'vuex'
 
 export default {
   name: 'home',
   components: {
     topper
+  },
+  computed: {
+    ...mapState(['userInfo'])
   }
 }
 </script>
@@ -26,7 +31,7 @@ export default {
   .order {
     width: 100%;
     .header {
-      background-color: #02a774;
+      background-color: @green;
       position: fixed;
       z-index: 100;
       left: 0;
@@ -88,7 +93,7 @@ export default {
       }
       > button {
         display: inline-block;
-        background: #02a774;
+        background: @green;
         font-size: 14px;
         color: #fff;
         border: 0;

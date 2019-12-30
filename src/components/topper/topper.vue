@@ -18,8 +18,9 @@ export default {
 </script>
 
 <style lang="less" rel="stylesheet/less">
+  @import "../../common/mixins/mixins.less";
   .header {
-    background-color: #02a774;
+    background-color: @green;
     position: fixed;
     z-index: 100;
     left: 0;

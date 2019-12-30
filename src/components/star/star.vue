@@ -1,6 +1,6 @@
 <template>
   <div class="star" :class="'star-'+size">
-    <span class="star-item" v-for="(sc, index) in starClasses" :class="sc" :key="index"></span>
+    <span class="star-item" v-for="(sc, index) in starClassese" :class="sc" :key="index"></span>
   </div>
 </template>
 
@@ -38,6 +38,22 @@ export default {
         scs.push(CLASS_OFF)
       }
 
+      return scs
+    },
+    starClassese () {
+      const { score } = this
+      let scs = []
+      const scoreInteger = Math.floor(score)
+      for (let i = 0; i < scoreInteger; i++) {
+        scs.push(CLASS_ON)
+      }
+      const scoreDec = (score - scoreInteger) * 10
+      if (scoreDec >= 4) {
+        scs.push(CLASS_HALF)
+      }
+      while (scs.length < 5) {
+        scs.push(CLASS_OFF)
+      }
       return scs
     }
   }

@@ -39,6 +39,28 @@ const routes = [
   {
     path: '/login',
     component: () => import('../views/login/login')
+  },
+  {
+    path: '/shop',
+    component: () => import('../views/shop/shop'),
+    children: [
+      {
+        path: 'goods',
+        component: () => import('../views/shop/shopChildren/shopGoods')
+      },
+      {
+        path: 'info',
+        component: () => import('../views/shop/shopChildren/shopInfo')
+      },
+      {
+        path: 'rating',
+        component: () => import('../views/shop/shopChildren/shopRating')
+      },
+      {
+        path: '/shop',
+        redirect: '/shop/goods'
+      }
+    ]
   }
 ]
 

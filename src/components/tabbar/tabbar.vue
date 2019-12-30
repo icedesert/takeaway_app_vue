@@ -32,7 +32,7 @@ export default {
   name: 'tabbar',
   methods: {
     goTo (path) {
-      this.$router.push(path) /** push 用 replace 代替也行 */
+      this.$router.push(path) /** push 用 replace 代替也行,只是无法回退 */
     }
   }
 }
@@ -60,7 +60,7 @@ export default {
       margin: 5px;
       color: #999999;
       &.on {
-        color: #02a774;
+        color: @green;
       }
       span {
         font-size: 12px;

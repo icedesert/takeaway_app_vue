@@ -1,42 +1,39 @@
 <template>
   <div class="shop_container">
-    <!--<ul class="shop_list" v-if="shops.length">-->
-    <ul class="shop_list" v-if="true">
-      <!--<li class="shop_li border-1px" v-for="(shop, index) in shops" :key="index" @click="$router.push('/shop')">-->
-      <li class="shop_li border-1px" @click="$router.push('/shop')">
+    <ul class="shop_list" v-if="shops.length">
+      <li class="shop_li border-1px" @click="$router.push('/shop')" v-for="(shop,index) in shops" :key="index">
         <a>
           <div class="shop_left">
-            <!--<img class="shop_img" :src="baseImgUrl+shop.image_path">-->
-            <img class="shop_img" src="">
+            <img class="shop_img" :src="shopImages[index]">
           </div>
           <div class="shop_right">
             <section class="shop_detail_header">
-              <h4 class="shop_title ellipsis"></h4>
+              <h4 class="shop_title ellipsis">{{shop.name}}</h4>
               <ul class="shop_detail_ul">
-                <!--<li class="supports" v-for="(support, index) in shop.supports" :key="index">-->
-                <li class="supports">
+                <li class="supports" v-for="(support, index) in shop.supports" :key="index">
+                  {{support.icon_name}}
                 </li>
               </ul>
             </section>
             <section class="shop_rating_order">
               <section class="shop_rating_order_left">
-                <!--<star :score="shop.rating" :size="24"/>-->
-                <star/>
+                <star :score="shop.rating" :size="24"/>
                 <div class="rating_section">
+                  {{shop.rating}}
                 </div>
                 <div class="order_section">
-                  月售  单
+                  月售{{shop.recent_order_num}}单
                 </div>
               </section>
               <section class="shop_rating_order_right">
-                <span class="delivery_style delivery_right"></span>
+                <span class="delivery_style delivery_right">蜂鸟专送</span>
               </section>
             </section>
             <section class="shop_distance">
               <p class="shop_delivery_msg">
-                <span>¥  起送</span>
+                <span>¥{{shop.float_minimum_order_amount}} 起送 </span>
                 <span class="segmentation">/</span>
-                <span>配送费约¥  </span>
+                <span> 配送费约 ¥{{shop.float_delivery_fee}} </span>
               </p>
             </section>
           </div>
@@ -52,9 +49,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import star from '../../components/star/star'
+
 export default {
   name: 'shoplist',
+  computed: {
+    ...mapState(['shops', 'shopImages'])
+  },
   components: { star }
 }
 </script>
@@ -66,7 +68,7 @@ export default {
     margin-bottom: 50px;
     .shop_list {
       .shop_li {
-      .bottom-border-1px(#f1f1f1);
+        .bottom-border-1px(#f1f1f1);
         width: 100%;
         > a {
           .clearFix();
@@ -159,12 +161,12 @@ export default {
                 .delivery_left {
                   color: #fff;
                   margin-right: -10px;
-                  background-color: #02a774;
-                  border: 1px solid #02a774;
+                  background-color: @green;
+                  border: 1px solid @green;
                 }
                 .delivery_right {
-                  color: #02a774;
-                  border: 1px solid #02a774;
+                  color: @green;
+                  border: 1px solid @green;
                 }
               }
             }
