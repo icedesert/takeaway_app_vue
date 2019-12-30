@@ -4,8 +4,13 @@
 ###   https://github.com/icedesert/takeaway_server
 ## 3. 启动前请务必确保已启动后台服务器；
 ![image_text](./src/assets/images/demoInro/home.png)
-![image_text](./src/assets/images/demoInro/shopGoods.png)
-![image_text](./src/assets/images/demoInro/shopCart.png)
+![image_text](./src/assets/images/demoInro/shopCartFix.png)
+![image_text](./src/assets/images/demoInro/shopRatings.png)
+![image_text](./src/assets/images/demoInro/shopInfo.png)
+![image_text](./src/assets/images/demoInro/searchLoading.png)
+![image_text](./src/assets/images/demoInro/searchResult.png)
+![image_text](./src/assets/images/demoInro/phoneLogin.png)
+![image_text](./src/assets/images/demoInro/profile.png)
 ## Project setup
 ```
 npm install

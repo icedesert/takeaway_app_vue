@@ -311,7 +311,7 @@ export default {
     width: 100%;
     height: 100%;
     z-index: 40;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(.5px);
     opacity: 1;
     background: rgba(7, 17, 27, 0.6);
     &.fade-enter-active, &.fade-leave-active {

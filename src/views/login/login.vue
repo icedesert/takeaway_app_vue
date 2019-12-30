@@ -154,7 +154,6 @@ export default {
       }
       if (result.code === 0) {
         this.$store.dispatch('saveUserInfo', result.data)
-        console.log('保存的用户信息:', result.data)
         this.$router.push('/profile')
       } else {
         this.showTip(result.msg)

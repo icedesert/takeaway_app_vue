@@ -8,7 +8,8 @@
     <section class="list" v-if="searchResult">
       <ul class="list_container">
         <!--:to="'/shop?id='+item.id"-->
-        <router-link :to="{path:'/shop', query:{id:shop.id}}" tag="li" class="list_li" v-for="(shop,index) in searchShops" :key="index">
+        <router-link :to="{path:'/shop', query:{id:shop.id}}" tag="li" class="list_li"
+                     v-for="(shop,index) in searchShops" :key="index">
           <section class="item_left">
             <img :src="imgBaseUrl+shop.image_path" class="restaurant_img">
           </section>
@@ -24,6 +25,9 @@
         </router-link>
       </ul>
     </section>
+    <div class="showLoading" v-if="showLoading">
+        <img src="../../assets/images/loading.gif"/>
+      </div>
     <div class="search_none" v-if="!searchResult">无搜索结果</div>
   </section>
 
@@ -39,7 +43,8 @@ export default {
     return {
       keyword: '',
       imgBaseUrl: 'http://cangdu.org:8001/img/',
-      searchResult: true
+      searchResult: true,
+      showLoading: false
     }
   },
   components: {
@@ -55,10 +60,12 @@ export default {
       } else {
         this.searchResult = false
       }
+      this.showLoading = false
     }
   },
   methods: {
     search () {
+      this.showLoading = true
       const keyword = this.keyword.trim()
       if (keyword.length > 0) {
         this.$store.dispatch('getSearchShops', keyword)
@@ -141,6 +148,25 @@ export default {
       color: #333;
       background-color: #fff;
       text-align: center;
+    }
+    .showLoading {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 14.5%;
+      left: 0;
+      background: #ffff;
+      img {
+        width: 200px;
+        height: 150px;
+        margin: 30% 50%;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+        z-index: 50;
+      }
     }
   }
 </style>
