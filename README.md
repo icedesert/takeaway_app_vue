@@ -1,5 +1,5 @@
 # takeaway_app
-## 1. 基于 vue3 开发的移动端项目；
+## 1. 基于 vue-cli3 开发的移动端项目；
 ## 2. 对应的后端服务器地址：
 ###   https://github.com/icedesert/takeaway_server
 ## 3. 启动前请务必确保已启动后台服务器；
