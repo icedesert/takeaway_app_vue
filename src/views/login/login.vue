@@ -129,8 +129,10 @@ export default {
       if (this.loginWay) {
         if (!this.rightPhone) {
           this.showTip('请输入正确的电话号码')
+          return
         } else if (!this.rightCode) {
           this.showTip('请输入正确的验证码')
+          return
         }
         // 发送短信验证码登录的ajax请求
         result = await reqSmsLogin(this.phone, this.code)
@@ -138,10 +140,13 @@ export default {
         const { name, pwd, captcha } = this
         if (!name) {
           this.showTip('请输入用户名')
+          return
         } else if (!pwd) {
           this.showTip('请输入密码')
+          return
         } else if (!captcha) {
           this.showTip('请输入验证码')
+          return
         }
         // 发送用户名密码登录的ajax请求
         result = await reqPwdLogin({ name, pwd, captcha })

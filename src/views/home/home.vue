@@ -20,7 +20,7 @@
         <nav class="msite_nav">
           <div class="swiper-container" v-if="categorysArr.length">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="(categorys,index) in categorysArr" :key="index">
+              <div class="swiper-slide" @click="test" v-for="(categorys,index) in categorysArr" :key="index">
                 <a href="javascript:;" class="link_to_food" v-for="(cate,index) in categorys" :key="index">
                   <div class="food_container">
                     <img :src="baseImagesUrl+cate.image_url">
@@ -28,7 +28,6 @@
                   <span>{{cate.title}}</span>
                 </a>
               </div>
-
             </div>
             <!-- 分页器 -->
             <div class="swiper-pagination"></div>
@@ -60,7 +59,8 @@ export default {
   name: 'home',
   data () {
     return {
-      baseImagesUrl: 'https://fuss10.elemecdn.com'
+      baseImagesUrl: 'https://fuss10.elemecdn.com',
+      currentIndex: 0
     }
   },
   mounted () {
@@ -86,23 +86,31 @@ export default {
     }
   },
   watch: {
-    categorysArr (newvalue) {
+    categorysArr () {
       this.$nextTick(() => {
-        /** 下方这个注释用于避开 eslint */
-        /* eslint-disable */
-        new Swiper('.swiper-container', {
-          loop: true,
+        const swiperContainer = new Swiper('.swiper-container', {
+          loop: false,
           pagination: {
             el: '.swiper-pagination'
-          },
-          paginationType: 'fraction',
-          paginationElement: 'span'
+          }
+        })
+        swiperContainer.on('slideChangeTransitionEnd', () => {
+          this.currentIndex = swiperContainer.activeIndex
         })
       })
+    },
+    currentIndex (newValue) {
+      if (newValue >= this.categorysArr.length) {
+        this.currentIndex = newValue - this.categorysArr.length
+      }
     }
   },
   methods: {
-    ...mapActions(['getAddress', 'getCategorys', 'getShops'])
+    ...mapActions(['getAddress', 'getCategorys', 'getShops']),
+    test () {
+      const currentItem = this.$refs.swiperWrapper.getElementsByClassName('swiper-slide')[1]
+      console.log(currentItem)
+    }
   },
   components: { topper, shoplist }
 }
